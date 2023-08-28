@@ -1,0 +1,51 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.children = []
+
+    def is_terminal(self):
+        return not self.children
+
+    def evaluate(self):
+        return self.value
+
+    def generate_children(self):
+        return self.children
+
+def minimax_alpha_beta(node, depth, alpha, beta, maximizing_player):
+    if depth == 0 or node.is_terminal():
+        return node.evaluate()
+
+    if maximizing_player:
+        value = float("-inf")
+        for child in node.generate_children():
+            value = max(value, minimax_alpha_beta(child, depth - 1, alpha, beta, False))
+            alpha = max(alpha, value)
+            if alpha >= beta:
+                break  # Beta pruning
+        return value
+    else:
+        value = float("inf")
+        for child in node.generate_children():
+            value = min(value, minimax_alpha_beta(child, depth - 1, alpha, beta, True))
+            beta = min(beta, value)
+            if alpha >= beta:
+                break  # Alpha pruning
+        return value
+
+# Example usage
+def main():
+    root_value = int(input("Enter the value for the root node: "))
+    root = Node(root_value)
+
+    num_children = int(input("Enter the number of children for the root node: "))
+    for _ in range(num_children):
+        child_value = int(input("Enter the value for a child node: "))
+        root.children.append(Node(child_value))
+
+    depth = int(input("Enter the depth for the minimax search: "))
+    best_score = minimax_alpha_beta(root, depth, float("-inf"), float("inf"), True)
+    print("Best score:", best_score)
+
+if __name__ == "__main__":
+    main()
