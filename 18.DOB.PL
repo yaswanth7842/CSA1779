@@ -1,5 +1,14 @@
-born(yashu,20,3,1998).
-born(sai,19,8,1999).
-born(ramu,1,9,1994).
-born(radha,7,8,2003).
-born(varun,8,9,2008).
+% Facts about individuals with their names and DOBs
+dob(john, date(1990, 5, 15)).
+dob(lisa, date(1985, 10, 20)).
+dob(mary, date(1995, 2, 8)).
+dob(david, date(1980, 7, 3)).
+
+% Query to find the DOB of a person
+get_dob(Person, Date) :-
+    dob(Person, Date).
+
+% Query to find individuals born after a certain year
+born_after(Year, Person) :-
+    dob(Person, date(Year2, _, _)),
+    Year2 > Year.
